@@ -9,7 +9,7 @@ const Container = styled.div `
 
 const ChatsListScreen = ({ history }) => (
   <Container>
-    <ChatsNavbar />
+    <ChatsNavbar history={history} />
     <ChatsList history={history} />
   </Container>
 )
