@@ -4,22 +4,18 @@ import AuthScreen from './components/AuthScreen'
 import ChatRoomScreen from './components/ChatRoomScreen'
 import ChatsListScreen from './components/ChatsListScreen'
 import AnimatedSwitch from './components/AnimatedSwitch'
-import { useCacheService } from './services/cache.service'
+import { withAuth } from './services/auth.service'
 
-const App = () => {
-  useCacheService()
-
-  return (
-    <BrowserRouter>
-      <AnimatedSwitch>
-        <Route exact path="/sign-in" component={AuthScreen} />
-        <Route exact path="/chats" component={ChatsListScreen} />
-        <Route exact path="/chats/:chatId" component={ChatRoomScreen} />
-      </AnimatedSwitch>
-      <Route exact path="/" render={redirectToChats} />
-    </BrowserRouter>
-  )
-}
+const App = () => (
+  <BrowserRouter>
+    <AnimatedSwitch>
+      <Route exact path="/sign-in" component={AuthScreen} />
+      <Route exact path="/chats" component={withAuth(ChatsListScreen)} />
+      <Route exact path="/chats/:chatId" component={withAuth(ChatRoomScreen)} />
+    </AnimatedSwitch>
+    <Route exact path="/" render={redirectToChats} />
+  </BrowserRouter>
+)
 
 const redirectToChats = () => (
   <Redirect to="/chats" />

@@ -1,4 +1,27 @@
+import * as React from 'react'
+import { Redirect } from 'react-router-dom'
 import client from '../client'
+import { useCacheService } from './cache.service'
+
+export const withAuth = (Component: React.ComponentType) => {
+  return (props) => {
+    if (!isSignedIn()) {
+      if (props.history.location.pathname === '/sign-in') {
+        return null
+      }
+
+      return (
+        <Redirect to="/sign-in" />
+      )
+    }
+
+    useCacheService()
+
+    return (
+      <Component {...props} />
+    )
+  }
+}
 
 export const signIn = (currentUserId) => {
   document.cookie = `currentUserId=${currentUserId}`
